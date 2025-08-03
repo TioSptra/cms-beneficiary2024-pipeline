@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: dim_plan
+    description: >
+      Menyimpan informasi plan dan coverage peserta Medicare berdasarkan bulan.
+    columns:
+      - name: bene_id
+        description: ID unik penerima manfaat.
+        tests:
+          - not_null
+          - unique
+
+      - name: month
+        description: Menunjukkan inidikator bulan (1 sampai 12).
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1,2,3,4,5,6,7,8,9,10,11,12]
+
+      - name: ptc_contract
+        description: Contract ID untuk plan type C.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Y0001','Y0002','Y0003','Y0004','Y0005','Y0006','Y0007','Y0008','Y0009','Y0010']
+
+      - name: ptc_pbp
+        description: Plan Benefit Package ID untuk plan type C.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [800,801,802,803,804]
+
+      - name: ptc_plan
+        description: Plan Code untuk plan type C.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Y','N']
+
+      - name: ptd_contract
+        description: Contract ID untuk plan type D.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Z0001','Z0002','Z0003','Z0004','Z0005','Z0006','Z0007','Z0008','Z0009','Z0010']
+
+      - name: ptd_pbp
+        description: Plan Benefit Package ID untuk plan type D.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [800,801,802,803,804]
+
+      - name: ptd_segment
+        description: Segment ID untuk plan type D.
+        tests:
+          - not_null

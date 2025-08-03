@@ -1,0 +1,105 @@
+version: 2
+
+models:
+  - name: fact_beneficiary_monthly
+    description: >
+      Tabel fakta bulanan yang menyimpan status Medicare, HMO, dan indikator eligibilitas lainnya untuk setiap penerima manfaat Medicare pada setiap bulan dan tahun.
+
+    columns:
+      - name: bene_id
+        description: ID unik penerima manfaat.
+        tests:
+          - not_null
+
+      - name: month
+        description: Nilai bulan (1–12) dari data bulanan.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1,2,3,4,5,6,7,8,9,10,11,12]
+
+      - name: year
+        description: Tahun referensi data bulanan.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [2024]
+
+      - name: mdcr_status
+        description: Kode status Medicare bulanan.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [10,11,20,21,31]
+
+      - name: entitlement_buyin
+        description: Kode entitlement buy-in Medicare bulanan.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Y','N']
+
+
+      - name: dual_status
+        description: Kode status dual eligibility bulanan.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [00, 01, 02, 03, 04, 06, 08]
+
+      - name: cost_sharing
+        description: Kode grup cost sharing bulanan.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 9]
+
+      - name: hmo_ind
+        description: Indikator apakah peserta terdaftar dalam HMO bulan tersebut.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Y','N']
+
+      - name: hi_coverage_mons
+        description: Jumlah bulan dalam setahun dengan cakupan HI.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [12]
+
+      - name: smi_coverage_mons
+        description: Jumlah bulan dengan cakupan SMI.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [12]
+
+      - name: state_buyin_mons
+        description: Jumlah bulan dengan buy-in oleh negara bagian.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [12]
+
+      - name: hmo_coverage_mons
+        description: Jumlah bulan terdaftar di HMO.
+        tests:
+          - not_null
+
+      - name: plan_coverage_mons
+        description: Jumlah bulan dalam tahun dengan rencana cakupan.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [12]
+
+      - name: rds_coverage_mons
+        description: Jumlah bulan dengan Retiree Drug Subsidy.
+        tests:
+          - not_null
+
+      - name: dual_eligible_mons
+        description: Jumlah bulan dengan dual eligibility.
+        tests:
+          - not_null

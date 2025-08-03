@@ -1,0 +1,16 @@
+name : 'capstone'
+version : '1.0.0'
+profile : 'capstone'
+
+models:
+  capstone:
+    staging:
+      +schema: jcdeol005_capstone3_tio_staging
+      +materialized: table
+    model:
+      +schema: jcdeol005_capstone3_tio_model
+      +materialized: table
+    marts:
+      +schema: jcdeol005_capstone3_tio_mart
+      +materialized: table
+

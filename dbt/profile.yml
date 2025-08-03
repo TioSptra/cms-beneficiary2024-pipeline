@@ -1,0 +1,10 @@
+capstone:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: purwadika
+      threads: 2
+      keyfile: credentials.json
+      location: US   

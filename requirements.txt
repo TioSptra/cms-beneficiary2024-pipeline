@@ -1,0 +1,6 @@
+apache-airflow-providers-fab
+apache-airflow-providers-celery
+apache-airflow-providers-docker
+apache-airflow-providers-postgres
+google-cloud-bigquery
+requests

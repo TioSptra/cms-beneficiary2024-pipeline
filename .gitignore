@@ -1,0 +1,8 @@
+credentials.json
+logs/
+tmp/
+config/
+dbt/target/
+__pycache__/
+test/
+target/

@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: dim_enrollment
+    description: >
+      Menyimpan informasi status pendaftaran dan atribut kelompok penerima manfaat Medicare.
+    columns:
+      - name: bene_id
+        description: ID unik penerima manfaat.
+        tests:
+          - not_null
+          - unique
+
+      - name: enrollment_year
+        description: Menunjukkan tahun referensi pendaftaran peserta.
+        tests:
+          - not_null
+          - accepted_values:
+            values: [2024]
+
+      - name: enrollment_source
+        description: Menunjukkan sumber pendaftaran peserta (mis. otomatis, form, dsb.).
+        tests:
+          - not_null
+          - accepted_values:
+            values: ['CME']
+
+      - name: sample_group
+        description: Kode grup sampel untuk tujuan studi / analisis.
+        tests:
+          - not_null
+
+      - name: enhanced_five_percent_flag
+        description: Menunjukkan apakah termasuk dalam sampel 5% yang diperluas.
+        tests:
+          - not_null
+
+      - name: covstart
+        description: Tanggal awal pertanggungan peserta Medicare.
+        tests:
+          - not_null

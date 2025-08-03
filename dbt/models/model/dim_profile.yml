@@ -1,0 +1,111 @@
+version: 2
+
+models:
+  - name: dim_profile
+    description: >
+      Menyimpan informasi demografi dan status kelayakan Medicare peserta (profil penerima).
+    columns:
+      - name: bene_id
+        description: ID unik penerima manfaat.
+        tests:
+          - not_null
+          - unique
+
+      - name: gender
+        description: Jenis kelamin peserta (Male/Female).
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Male', 'Female']
+
+      - name: birth_date
+        description: Tanggal lahir peserta.
+        tests:
+          - not_null
+
+      - name: death_date
+        description: Tanggal kematian (jika ada).
+        tests:
+          - not_null
+
+      - name: age_at_end_of_year
+        description: Umur peserta pada akhir tahun referensi.
+        tests:
+        - not_null
+
+      - name: race_final
+        description: Kode ras RTI peserta.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6]
+
+      - name: race_desc
+        description: Deskripsi ras peserta.
+        tests: 
+          - accepted_values:
+              values:
+                - ['White','Black','Other','Asian','Hispanic','American Indian or Alaska Native']
+
+      - name: current_bic_code
+        description: Kode pembayaran tunjangan saat ini.
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - ['A', 'B', 'B1', 'B2', 'B3', 'B6', 'B9', 'BR', 'BT', 'BY', 'C1', 'C2', 'C3', 'D', 'D1', 'D2', 'D3', 'D6', 'M', 'T', 'TA']
+
+      - name: entitlement_reason_original
+        description: Alasan awal menerima Medicare.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3]
+
+      - name: entitlement_reason_current
+        description: Alasan terkini menerima Medicare.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3]
+
+      - name: esrd_indicator
+        description: Apakah penerima menderita ESRD (penyakit ginjal kronis).
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Y', 'N']
+
+      - name: pta_termination_code
+        description: Kode penghentian bagian A.
+        tests:
+          - not_null
+
+      - name: ptb_termination_code
+        description: Kode penghentian bagian B.
+        tests:
+          - not_null
+
+      - name: valid_death_date_flag
+        description: Indikator validitas tanggal kematian.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Y', 'N']
+
+      - name: valid_from
+        description: Tanggal mulai versi (SCD2).
+        tests:
+          - not_null
+
+      - name: valid_to
+        description: Tanggal akhir versi (SCD2).
+        tests:
+          - not_null
+
+      - name: is_current
+        description: Menunjukkan apakah versi ini adalah yang terbaru.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]

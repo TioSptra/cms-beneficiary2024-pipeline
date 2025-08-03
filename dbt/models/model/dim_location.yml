@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name : dim_location
+    description: >
+      Menyimpan informasi geografis seperti ZIP Code dan FIPS terakhir yang tercatat, serta state code.
+    columns:
+      - name: bene_id
+        description: ID unik penerima manfaat.
+        tests:
+          - not_null
+          - unique
+
+      - name: month
+        description: Menunjukkan inidikator bulan.
+        tests:
+          - not_null
+          - accepted_values:
+            values: [1,2,3,4,5,6,7,8,9,10,12]
+            
+      - name: county_cd
+        description: kode kota bagian penerima manfaat.
+        tests:
+          - not_null
+
+      - name: zip_code
+        description: ZIP Code terakhir yang tercatat.
+        tests:
+          - not_null
+
+      - name: state_code
+        description: Kode negara bagian penerima manfaat.
+        tests:
+          - not_null
+
+      - name: state_county_fips
+        description: Kode FIPS wilayah terakhir.
+        tests:
+          - not_null
+
