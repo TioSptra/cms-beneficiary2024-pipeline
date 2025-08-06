@@ -1,10 +1,13 @@
 import logging
+import os
+from dotenv import load_dotenv
 
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
     level=logging.INFO,
     datefmt="%Y-%m-%d %H:%M:%S %Z"
 )
+load_dotenv(dotenv_path=os.path.join("/opt/airflow/keys", "key_discord.env"))
 
 def discord_notification(context):
     import requests
@@ -15,7 +18,7 @@ def discord_notification(context):
     logical_date = context.get("data_interval_start").strftime("%Y-%m-%d %H:%M:%S")
     task_instance_state = task_instance.state
 
-    webhook_url = "https://discordapp.com/api/webhooks/1399280861395812442/6uPqJnsKboEZLtJyplj8-HivIDeU2CQoNu1rmVnnDZeJ73Al6zJm9D2u2OUQjMtsT6zi"
+    webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
     message = f"DAG: {dag_id}\nTask: {task_id}\nExecution Time: {logical_date}"
     if task_instance_state == "success":
         message += "\nStatus: ✅ Success \n"

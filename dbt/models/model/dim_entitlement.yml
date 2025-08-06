@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: dim_entitlement
+    description: >
+      Menyimpan informasi status entitlement dan kondisi ESRD (End-Stage Renal Disease) penerima manfaat Medicare.
+    columns:
+      - name: bene_id
+        description: ID unik penerima manfaat.
+        tests:
+          - not_null
+          - unique
+
+      - name: entitlement_reason_original
+        description: Alasan awal pendaftaran Medicare.
+        tests:
+          - not_null
+
+      - name: entitlement_reason_current
+        description: Alasan terkini peserta masih menerima Medicare.
+        tests:
+          - not_null
+
+      - name: esrd_indicator
+        description: Indikator penyakit ginjal stadium akhir (Y/N).
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Y', 'N']
+
+      - name: pta_termination_code
+        description: Kode penghentian Medicare Part A (jika ada).
+        tests:
+          - not_null
+
+      - name: ptb_termination_code
+        description: Kode penghentian Medicare Part B (jika ada).
+        tests:
+          - not_null

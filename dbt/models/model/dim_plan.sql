@@ -24,7 +24,7 @@ WITH monthly_struct AS (
 
 SELECT
     bene_id,
-    SAFE_CAST(monthly_data.month AS INT) AS month,
+    SAFE_CAST(monthly_data.month AS INTEGER) AS month,
     monthly_data.ptc_contract,
     monthly_data.ptc_pbp,
     monthly_data.ptc_plan,

@@ -11,6 +11,6 @@ models:
       +schema: jcdeol005_capstone3_tio_model
       +materialized: table
     marts:
-      +schema: jcdeol005_capstone3_tio_mart
+      +schema: jcdeol005_capstone3_tio_marts
       +materialized: table
 

@@ -19,9 +19,9 @@ SELECT
     SAFE_CAST(AGE_AT_END_REF_YR AS INTEGER) AS age_at_end_of_year,
     SAFE_CAST(RTI_RACE_CD AS integer) AS rti_race_code,
     CASE 
-        WHEN CRNT_BIC_CD IN (10) THEN NULL
-        ELSE SAFE_CAST(CRNT_BIC_CD AS INTEGER)
-        END AS current_bic_code
+        WHEN CRNT_BIC_CD = '10' THEN NULL
+        ELSE SAFE_CAST(CRNT_BIC_CD AS STRING)
+        END AS current_bic_code,
     CASE 
         WHEN VALID_DEATH_DT_SW IS NULL THEN 'N'
         ELSE SAFE_CAST(VALID_DEATH_DT_SW as STRING)
@@ -31,4 +31,4 @@ WHERE
     bene_id IS NOT NULL
     AND ZIP_CD IS NOT NULL
     AND SAFE_CAST(ZIP_CD AS INTEGER) > 0
-    AND current_bic_code IS NOT NULL
+    AND CRNT_BIC_CD != '10'

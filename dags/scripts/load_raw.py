@@ -1,8 +1,8 @@
 import os
 from google.cloud import bigquery
-from io import StringIO
 import logging
 import time
+import argparse
 
 logging.basicConfig(
     level=logging.INFO,
@@ -21,19 +21,6 @@ def load_stg(year):
     log.info("insitation client Bigquery...")
     client = bigquery.Client(project=project_id)
     dataset_ref = client.dataset(dataset_id)
-    try:
-        client.get_dataset(dataset_ref)
-        log.info(f"DATASET '{dataset_id}' already on bigquery '{project_id}'")
-        time.sleep(1)
-    except Exception:
-        log.info(f"CREATE DATASET '{dataset_id}' on bigquery '{project_id}'")
-        dataset = bigquery.Dataset(dataset_ref)
-        dataset.location = "US"
-        dataset = client.create_dataset(dataset)
-        log.info(f"[SUCCESS] add '{dataset_id}' on bigquery '{project_id}'")
-        time.sleep(1)
-
-    log.info("configuration load csv to google cloud-bigquery....")
     table_ref = dataset_ref.table(table_id)
     job_config = bigquery.LoadJobConfig(
         source_format=bigquery.SourceFormat.CSV,
@@ -44,21 +31,18 @@ def load_stg(year):
 
     log.info(f"Load csv to {dataset_id}.{table_id}' ")
     try:
-        import requests
-
-        url = "https://data.cms.gov/sites/default/files/2023-04/402c0430-aab0-47f9-ab51-4274e30d2f79/beneficiary_2024.csv"
-        file = url.split('/')[-1]
-        log.info(f"download beneficiary csv from {url} ")
-        respons = requests.get(url)
-        respons.raise_for_status()
-        time.sleep(1)
-        load_job = client.load_table_from_file(StringIO(respons.text), table_ref, job_config=job_config)
-        load_job.result() 
-        log.info(f"[SUCCESS] '{file}' uploaded to {dataset_id}.{table_id} ")
+        csv = os.path.join("/opt/airflow/tmp",f"beneficiary_{year}.csv")
+        with open(csv,"rb") as file:
+            load_job = client.load_table_from_file(file, table_ref, job_config=job_config)
+            load_job.result() 
+        log.info(f"[SUCCESS] '{csv}' uploaded to {dataset_id}.{table_id} ")
         time.sleep(1)
     except Exception as e:
         log.exception(f"Unexpected error while loading to {dataset_id}.{table_id}: {e}")
         raise
 
 if __name__ == "__main__":
-    load_stg(2024)
+    parser = argparse.ArgumentParser(description="Input the beneficiary year indicator")
+    parser.add_argument("--year", type=int, help="Input the beneficiary year file that has been downloaded")
+    args = parser.parse_args()
+    load_stg(args.year)

@@ -6,5 +6,5 @@ capstone:
       method: service-account
       project: purwadika
       threads: 2
-      keyfile: credentials.json
+      keyfile: keys/credentials.json
       location: US   

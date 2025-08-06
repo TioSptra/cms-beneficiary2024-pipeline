@@ -24,7 +24,7 @@ WHERE bene_id IS NOT NULL
 
 SELECT
     bene_id,
-    SAFE_CAST(monthly_data.month AS INT) AS month,
+    SAFE_CAST(monthly_data.month AS INTEGER) AS month,
     county_code,
     zip_code,
     state_code,

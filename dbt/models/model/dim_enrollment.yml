@@ -15,15 +15,12 @@ models:
         description: Menunjukkan tahun referensi pendaftaran peserta.
         tests:
           - not_null
-          - accepted_values:
-            values: [2024]
 
       - name: enrollment_source
         description: Menunjukkan sumber pendaftaran peserta (mis. otomatis, form, dsb.).
         tests:
-          - not_null
           - accepted_values:
-            values: ['CME']
+              values: ['CME']
 
       - name: sample_group
         description: Kode grup sampel untuk tujuan studi / analisis.

@@ -39,7 +39,7 @@ WHERE p.bene_id IS NOT NULL
 
 SELECT
     bene_id,
-    SAFE_CAST(monthly_data.month AS INT) AS month,
+    SAFE_CAST(monthly_data.month AS INTEGER) AS month,
     year,
     monthly_data.mdcr_status,
     monthly_data.entitlement_buyin,
