@@ -3,5 +3,4 @@ apache-airflow-providers-celery
 apache-airflow-providers-docker
 apache-airflow-providers-postgres
 google-cloud-bigquery
-dbt-bigquery
 python-dotenv
