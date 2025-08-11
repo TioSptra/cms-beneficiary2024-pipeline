@@ -3,7 +3,7 @@
 ) }}
 
 SELECT
-    SAFE_CAST(BENE_ID AS integer) AS bene_id,
+    ABS(BENE_ID) AS bene_id,
     SAFE_CAST(STATE_CODE AS integer) AS state_code,
     SAFE_CAST(COUNTY_CD AS integer) AS county_cd,
     SAFE_CAST(ZIP_CD AS INTEGER) AS zip_code,

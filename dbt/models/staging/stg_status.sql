@@ -3,7 +3,7 @@
 ) }}
 
 SELECT
-    SAFE_CAST(BENE_ID AS INTEGER) AS bene_id,
+    ABS(BENE_ID) AS bene_id,
     SAFE_CAST(ENTLMT_RSN_ORIG AS INTEGER) AS entitlement_reason_original,
     SAFE_CAST(ENTLMT_RSN_CURR AS INTEGER) AS entitlement_reason_current,
         CASE 
@@ -14,8 +14,6 @@ SELECT
     SAFE_CAST(BENE_PTA_TRMNTN_CD AS INTEGER) AS pta_termination_code,
     SAFE_CAST(BENE_PTB_TRMNTN_CD AS INTEGER) AS ptb_termination_code,
 
-
-    -- Medicare status per bulan
     {% for i in range(1, 13) %}
     SAFE_CAST(MDCR_STATUS_CODE_{{ '{:02}'.format(i) }} AS INTEGER) AS mdcr_status_code_{{ '{:02}'.format(i) }},
     {% endfor %}

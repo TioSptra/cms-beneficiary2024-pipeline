@@ -1,3 +1,5 @@
+dbt-bigquery
+dbt-core
 apache-airflow-providers-fab
 apache-airflow-providers-celery
 apache-airflow-providers-docker

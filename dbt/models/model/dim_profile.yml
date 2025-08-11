@@ -36,6 +36,9 @@ models:
         description: Kode ras RTI peserta.
         tests:
           - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6]
+              quote: false
 
       - name: race_desc
         description: Deskripsi ras peserta.

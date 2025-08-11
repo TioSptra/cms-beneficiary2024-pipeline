@@ -120,15 +120,6 @@ services:
       start_period: 30s
     restart: always
 
-  dbt:
-    image: ghcr.io/dbt-labs/dbt-bigquery:1.6.0
-    volumes:
-      - ./dbt/:/opt/airflow/dbt
-      - ./keys:/opt/airflow/keys    
-    working_dir: /opt/airflow/dbt
-    environment:
-      GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/keys/credentials.json
-
   airflow-apiserver:
     <<: *airflow-common
     command: api-server
@@ -158,6 +149,10 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./dbt:/opt/airflow/dbt
+      - ./keys:/opt/airflow/keys
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
@@ -200,7 +195,6 @@ services:
         - ./dags:/opt/airflow/dags
         - ./dbt:/opt/airflow/dbt
         - ./keys:/opt/airflow/keys
-        - /var/run/docker.sock:/var/run/docker.sock
     restart: always
     depends_on:
       <<: *airflow-common-depends-on

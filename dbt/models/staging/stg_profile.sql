@@ -3,7 +3,7 @@
 ) }}
 
 SELECT
-    SAFE_CAST(BENE_ID AS INTEGER) AS bene_id,
+    ABS(BENE_ID) AS bene_id,
     SAFE_CAST(BENE_BIRTH_DT AS DATE) AS birth_date,
     CASE 
         WHEN SEX_IDENT_CD = 1 THEN 'Male'

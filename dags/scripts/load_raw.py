@@ -18,7 +18,7 @@ def load_stg(year):
     dataset_id = "jcdeol005_capstone3_tio_raw"  
     table_id = f"raw_beneficiary_{year}" 
 
-    log.info("insitation client Bigquery...")
+    log.info("initiating client Bigquery...")
     client = bigquery.Client(project=project_id)
     dataset_ref = client.dataset(dataset_id)
     table_ref = dataset_ref.table(table_id)
@@ -29,7 +29,7 @@ def load_stg(year):
         write_disposition="WRITE_TRUNCATE"  
     )
 
-    log.info(f"Load csv to {dataset_id}.{table_id}' ")
+    log.info(f"Loading csv to {dataset_id}.{table_id}' ")
     try:
         csv = os.path.join("/opt/airflow/tmp",f"beneficiary_{year}.csv")
         with open(csv,"rb") as file:
