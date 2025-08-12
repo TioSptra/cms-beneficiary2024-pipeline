@@ -10,14 +10,14 @@ default_args = {
 }
 
 with DAG(
-    dag_id="jcdeol005_capstone_3_transformation",
+    dag_id="jcdeol005_test",
     default_args=default_args,
     description="Run DBT transformation via BashOperator",
     schedule=None,
     start_date=datetime(2024, 1, 1),
     catchup=False,
     max_active_runs=1,
-    tags=["jcdeol005", "transformation", "dbt", "bigquery", "bash"]
+    tags=["test"]
 ) as dag:
 
     start = EmptyOperator(task_id="start")

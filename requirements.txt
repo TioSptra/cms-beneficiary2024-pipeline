@@ -1,8 +1,8 @@
-dbt-bigquery
-dbt-core
 apache-airflow-providers-fab
 apache-airflow-providers-celery
 apache-airflow-providers-docker
 apache-airflow-providers-postgres
+dbt-bigquery
 google-cloud-bigquery
 python-dotenv
+requests

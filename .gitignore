@@ -6,4 +6,4 @@ dbt/target/
 __pycache__/
 test/
 target/
-.env
+*.env

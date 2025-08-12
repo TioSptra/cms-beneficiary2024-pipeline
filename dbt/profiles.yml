@@ -5,6 +5,7 @@ capstone:
       type: bigquery
       method: service-account
       project: purwadika
-      threads: 2
+      dataset: jcdeol005_capstone3_tio_staging
+      threads: 1
       keyfile: /opt/airflow/keys/credentials.json
-      location: US   
+      location: asia-southeast2   
