@@ -25,6 +25,9 @@ models:
         description: Kode status Medicare bulanan.
         tests:
           - not_null
+          - accepted_values:
+              values: [10, 11, 20, 21, 31]
+              quote: false
 
       - name: entitlement_buyin
         description: Kode entitlement buy-in Medicare bulanan.

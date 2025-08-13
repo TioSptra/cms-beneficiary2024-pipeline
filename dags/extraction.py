@@ -1,7 +1,9 @@
 from datetime import datetime
-from airflow.sdk import DAG , chain
-from airflow.providers.standard.operators.bash import BashOperator
-from airflow.providers.standard.operators.empty import EmptyOperator
+from airflow import DAG
+from airflow.models.baseoperator import chain
+from airflow.operators.empty import EmptyOperator
+from airflow.operators.bash import BashOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from scripts.notification import discord_notification
 default_args = {
     "owner": "airflow",
@@ -39,4 +41,12 @@ with DAG(
         bash_command = 'sleep 30'
     )
 
-    chain(start, create, load, delay)
+    trigger = TriggerDagRunOperator(
+        task_id="trigger_transformation_dag",
+        trigger_dag_id="jcdeol005_capstone_3_transformation",
+        wait_for_completion=False,
+        on_failure_callback=discord_notification,
+        on_success_callback=discord_notification 
+    )
+
+    chain(start, create, load, delay, trigger)

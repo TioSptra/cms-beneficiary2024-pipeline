@@ -25,6 +25,10 @@ models:
         description: Plan Benefit Package ID untuk plan type C.
         tests:
           - not_null
+          - accepted_values:
+              values: [800,801, 802, 803, 804]
+              quote: false
+
       - name: ptc_plan
         description: Plan Code untuk plan type C.
         tests:
@@ -41,6 +45,9 @@ models:
         description: Plan Benefit Package ID untuk plan type D.
         tests:
           - not_null
+          - accepted_values:
+              values: [800,801, 802, 803, 804]
+              quote: false
 
       - name: ptd_segment
         description: Segment ID untuk plan type D.

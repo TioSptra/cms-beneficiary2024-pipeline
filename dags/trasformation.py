@@ -1,7 +1,9 @@
 from datetime import datetime
-from airflow.sdk import DAG, chain
-from airflow.providers.standard.operators.bash import BashOperator
-from airflow.providers.standard.operators.empty import EmptyOperator
+from airflow import DAG
+from airflow.models.baseoperator import chain
+from airflow.operators.empty import EmptyOperator
+from airflow.operators.bash import BashOperator
+from airflow.utils.trigger_rule import TriggerRule
 from scripts.notification import discord_notification
 
 default_args = {
@@ -28,38 +30,38 @@ with DAG(
         on_success_callback=discord_notification
     )
 
-    # model = BashOperator(
-    #     task_id="create_dataset_model",
-    #     bash_command="dbt run --project-dir /opt/airflow/dbt --profiles-dir /opt/airflow/dbt --select model",
-    #     append_env=True,
-    #     env={
-    #         "GOOGLE_APPLICATION_CREDENTIALS": "/opt/airflow/keys/credentials.json"
-    #     },
-    #     on_failure_callback=discord_notification,
-    #     on_success_callback=discord_notification
-    # )
+    model = BashOperator(
+        task_id="create_dataset_model",
+        bash_command="dbt run --project-dir /opt/airflow/dbt --profiles-dir /opt/airflow/dbt --select model",
+        append_env=True,
+        env={
+            "GOOGLE_APPLICATION_CREDENTIALS": "/opt/airflow/keys/credentials.json"
+        },
+        on_failure_callback=discord_notification,
+        on_success_callback=discord_notification
+    )
 
-    # validasi = BashOperator(
-    #     task_id="validasi_model",
-    #     bash_command="dbt test --project-dir /opt/airflow/dbt --profiles-dir /opt/airflow/dbt --select model",
-    #     append_env=True,
-    #     env={
-    #         "GOOGLE_APPLICATION_CREDENTIALS": "/opt/airflow/keys/credentials.json"
-    #     },
-    #     on_failure_callback=discord_notification,
-    #     on_success_callback=discord_notification
-    # )
+    validasi = BashOperator(
+        task_id="validasi_model",
+        bash_command="dbt test --project-dir /opt/airflow/dbt --profiles-dir /opt/airflow/dbt --select model",
+        append_env=True,
+        env={
+            "GOOGLE_APPLICATION_CREDENTIALS": "/opt/airflow/keys/credentials.json"
+        },
+        on_failure_callback=discord_notification,
+        on_success_callback=discord_notification
+    )
 
-    # marts = BashOperator(
-    #     task_id="create_dataset_marts",
-    #     bash_command="dbt run --project-dir /opt/airflow/dbt --profiles-dir /opt/airflow/dbt --select marts",
-    #     append_env=True,
-    #     env={
-    #         "GOOGLE_APPLICATION_CREDENTIALS": "/opt/airflow/keys/credentials.json"
-    #     },
-    #     on_failure_callback=discord_notification,
-    #     on_success_callback=discord_notification
-    # )
+    marts = BashOperator(
+        task_id="create_dataset_marts",
+        bash_command="dbt run --project-dir /opt/airflow/dbt --profiles-dir /opt/airflow/dbt --select marts",
+        append_env=True,
+        env={
+            "GOOGLE_APPLICATION_CREDENTIALS": "/opt/airflow/keys/credentials.json"
+        },
+        on_failure_callback=discord_notification,
+        on_success_callback=discord_notification
+    )
 
     end = EmptyOperator(task_id="end")
-    chain(start, staging, end)
+    chain(start, staging, model, validasi, marts, end)

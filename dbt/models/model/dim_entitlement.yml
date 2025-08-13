@@ -15,11 +15,17 @@ models:
         description: Alasan awal pendaftaran Medicare.
         tests:
           - not_null
-
+          - accepted_values:
+              values: [0, 1, 2, 3]
+              quote: false
+              
       - name: entitlement_reason_current
         description: Alasan terkini peserta masih menerima Medicare.
         tests:
           - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3]
+              quote: false
 
       - name: esrd_indicator
         description: Indikator penyakit ginjal stadium akhir (Y/N).

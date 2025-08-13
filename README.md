@@ -1,7 +1,5 @@
 # CMS-Beneficiary2024-pipeline
-
-## Deskripsi
-Proyek ini membangun end-to-end data pipeline untuk mengolah dataset Medicare [Beneficiary 2024](https://github.com/sdg-1/healthcare-claims-analytics-project) dari CMS (Centers for Medicare & Medicaid Services).Pipeline ini memproses data mulai dari Extract → Load → Transform (ELT) dari file CSV ke Google BigQuery, dengan DBT untuk transformasi & pemodelan data,serta Apache Airflow untuk orkestrasi. Hasil akhirnya adalah Data Mart yang siap digunakan untuk analisis, termasuk metrik bulanan, demografi peserta, status kepesertaan, dan indikator cakupan.
+> Proyek ini membangun end-to-end data pipeline untuk mengolah dataset Medicare [Beneficiary 2024](https://github.com/sdg-1/healthcare-claims-analytics-project) dari CMS (Centers for Medicare & Medicaid Services).Pipeline ini memproses data mulai dari Extract → Load → Transform (ELT) dari file CSV ke Google BigQuery, dengan DBT untuk transformasi & pemodelan data,serta Apache Airflow untuk orkestrasi. Hasil akhirnya adalah Data Mart yang siap digunakan untuk analisis, termasuk metrik bulanan, demografi peserta, status kepesertaan, dan indikator cakupan.
 
 ## End-to-End Data Architecture
 ![arsitektur](images/arsitektur.jpg)
@@ -15,7 +13,7 @@ Arsitektur sistem menggunakan:
 Flow:
 `cms.gov → RAW → STAGING → MODEL → MART → Looker Studio`
 
-## Data Model (Star Chema)
+## Data Model (Star Chema) Beneficiary 2024
 ![relasi](images/relasi.jpg)
 
 Struktur Star Schema pada Data Warehouse:
@@ -27,20 +25,33 @@ Struktur Star Schema pada Data Warehouse:
     - `dim_enrollment`: Informasi pendaftaran dan sumber enrollment.
     - `dim_entitlemen`t: Alasan entitlement, ESRD indicator, termination code.
 
-## Airflow Workflow Diagram
-![Dags](images/airflow.jpg)
+## Dags Design
+> menggunakan airflow untuk orchestration pada proyek ini. disini ada 2 dags yang berfungsi antara lain:
+### Data Integration --Python
+![extrcat](images/ektrac.png)
+- Membuat dataset baru di Google BigQuery menggunakan credentials.json melalui script Python.
+- Mengunggah data mentah (raw data) dari CMS.gov ke tabel BigQuery.
+- Menambahkan jeda proses untuk memastikan data berhasil terunggah sepenuhnya.
+- Setelah proses extract selesai, Airflow secara otomatis menjalankan DAG Data Transformation untuk memproses data lebih lanjut.
 
-Diagram ini menunjukkan alur eksekusi pipeline `Apache Airflow`:
-- *START → Download → Create Dataset → Load RAW* menggunakan Python.
-- Setelah data raw di-load, task akan melakukan delay lalu trigger DBT workflow.
-- DBT menjalankan proses *Staging → Modeling → Validasi → Data Mart*.
-- Pemisahan alur Airflow dan DBT membantu memisahkan proses orchestration dan *data transformation*.
+### Data Transformation --DBT
+![transform](images/trans.png)
+- Membuat tabel staging di BigQuery dengan data yang sudah dibersihkan dan distandarisasi.
+-  Membangun data model sesuai kebutuhan analisis, seperti tabel dimensi dan fakta.
+- Melakukan data testing menggunakan DBT untuk memastikan kualitas data sesuai kriteria.
+- Data Mart Membuat data mart siap pakai untuk analisis dan visualisasi.
+
 
 ## Dashboard
 ![profile](images/profile.png)
 
 Visualisasi dashboard menunjukkan distribusi data beneficiary:
 - *Bar Chart*: Distribusi jumlah beneficiary berdasarkan kelompok umur dan gender.
-- *Donut Chart*: Perbandingan gender.
-- *KPI Card*: Menampilkan total beneficiary.
+    - `Toddler` = untuk umur pasien  0 < 5 tahun
+    - `child` = untuk umur pasien antara 5 - 9 tahun
+    - `teenage` = untuk umur pasien antara 10 - 18 tahun
+    - `adult` = untuk umur pasien antara 19 - 60 tahun
+    - `elderly` = untuk pasien 60 tahun ke atas
+- *Donut Chart*: Perbandingan gender pada tahun 2024.
+- *KPI Card*: Menampilkan total beneficiary pada tahun 2024.
 
