@@ -9,7 +9,7 @@ logging.basicConfig(
 )
 log = logging.getLogger()
 
-def load_stg():
+def create_dataset():
     log.info("Configuration to Google Cloud BigQuery...")
 
     key_path = os.path.join("/opt/airflow/keys/credentials.json")
@@ -40,4 +40,4 @@ def load_stg():
         time.sleep(1)
 
 if __name__ == "__main__":
-    load_stg()
+    create_dataset()

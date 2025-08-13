@@ -11,7 +11,7 @@ logging.basicConfig(
 )
 log = logging.getLogger()
 
-def load_stg(year):
+def load_dataRaw(year):
     log.info("Configuration to google cloud-bigquery...")
     key_path = os.path.join("/opt/airflow/keys","credentials.json")
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
@@ -48,6 +48,6 @@ def load_stg(year):
         raise
 
 if __name__ == "__main__":
-    load_stg(2024)
+    load_dataRaw(2024)
 
 
