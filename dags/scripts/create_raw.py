@@ -25,9 +25,9 @@ def create_dataset():
 
     log.info("Instantiating BigQuery client...")
     client = bigquery.Client(project=project_id)
-    dataset_ref = client.dataset(dataset_id)
 
     try:
+        dataset_ref = client.dataset(dataset_id)
         client.get_dataset(dataset_ref)
         log.info(f"DATASET '{dataset_id}' already exists in BigQuery project '{project_id}'")
         time.sleep(1)
