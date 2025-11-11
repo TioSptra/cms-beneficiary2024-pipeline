@@ -3,7 +3,16 @@
     unique_key='bene_id'
 ) }}
 
-WITH monthly_struct AS (
+SELECT
+    bene_id,
+    SAFE_CAST(monthly_data.month AS INTEGER) AS month,
+    monthly_data.ptc_contract,
+    monthly_data.ptc_pbp,
+    monthly_data.ptc_plan,
+    monthly_data.ptd_contract,
+    monthly_data.ptd_pbp,
+    monthly_data.ptd_segment
+FROM (
     SELECT 
         DISTINCT
         bene_id,
@@ -20,18 +29,7 @@ WITH monthly_struct AS (
         {% endfor %}
     FROM {{ ref('stg_coverage') }}
     WHERE bene_id IS NOT NULL
-)
-
-SELECT
-    bene_id,
-    SAFE_CAST(monthly_data.month AS INTEGER) AS month,
-    monthly_data.ptc_contract,
-    monthly_data.ptc_pbp,
-    monthly_data.ptc_plan,
-    monthly_data.ptd_contract,
-    monthly_data.ptd_pbp,
-    monthly_data.ptd_segment
-FROM monthly_struct,
+) AS monthly_struct,
 UNNEST([
     {% for i in range(1, 13) %}m{{ i }}{% if not loop.last %}, {% endif %}
     {% endfor %}
